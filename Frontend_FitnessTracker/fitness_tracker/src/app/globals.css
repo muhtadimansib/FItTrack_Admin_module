@@ -1,0 +1,296 @@
+@import "tailwindcss";
+@plugin "daisyui";
+
+
+
+@layer utilities {
+  @keyframes slide-in-right {
+    0% {
+      opacity: 0;
+      transform: translateX(50%);
+    }
+    100% {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  .animate-slide-in-right {
+    animation: slide-in-right 0.6s ease-out forwards;
+  }
+}
+
+.animate-fade-in {
+    animation: slideFadeIn 0.6s ease-out forwards;
+  }
+
+@keyframes slideFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.slide-fade-in {
+  animation: slideFadeIn 0.4s ease forwards;
+}
+
+.row-fade-in {
+  opacity: 0;
+  animation: slideFadeIn 0.4s ease forwards;
+  animation-delay: var(--delay, 0s);
+}
+
+@keyframes rowFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.row-fade-in {
+  animation-name: rowFadeIn;
+  animation-fill-mode: forwards;
+  animation-duration: 0.4s;
+  animation-timing-function: ease-out;
+  animation-delay: var(--delay);
+  opacity: 0; /* Start hidden */
+}
+
+
+@keyframes slideInRight {
+  0% {
+    opacity: 0;
+    transform: translateX(40px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.animate-slide-in-right {
+  animation: slideInRight 1.8s ease-in-out forwards;
+}
+
+
+
+@keyframes slideDownModal {
+  0% {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-slide-down-modal {
+  animation: slideDownModal 0.4s ease-out forwards;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@keyframes slide-in-left {
+  from {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0%);
+    opacity: 1;
+  }
+}
+
+@keyframes slide-in-right {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0%);
+    opacity: 1;
+  }
+}
+
+@keyframes slide-out-left {
+  from {
+    transform: translateX(0%);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+}
+
+@keyframes slide-out-right {
+  from {
+    transform: translateX(0%);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+}
+
+/* Homepage Animations */
+
+
+/* Animations for the motivation section in the homepage */
+@keyframes enter-left {
+  from {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes enter-right {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes exit-left {
+  from {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+}
+
+@keyframes exit-right {
+  from {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+}
+
+.animate-enter-left {
+  animation: enter-left 0.6s ease forwards;
+}
+.animate-enter-right {
+  animation: enter-right 0.6s ease forwards;
+}
+.animate-exit-left {
+  animation: exit-left 0.6s ease forwards;
+}
+.animate-exit-right {
+  animation: exit-right 0.6s ease forwards;
+}
+
+
+
+
+
+/* Animation for the header section */
+@keyframes bar {
+  0%, 100% {
+    transform: scaleY(0.3);
+    opacity: 0.2;
+  }
+  50% {
+    transform: scaleY(1);
+    opacity: 1;
+  }
+}
+
+.animate-bar {
+  animation: bar infinite ease-in-out;
+  transform-origin: bottom;
+}
+
+
+
+/*Floating animation for the image in the service section*/
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-35px); 
+  }
+}
+
+.float-animation {
+  animation: float 6s ease-in-out infinite;
+}

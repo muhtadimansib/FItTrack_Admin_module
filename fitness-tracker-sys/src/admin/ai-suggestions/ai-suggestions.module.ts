@@ -2,9 +2,10 @@ import { Module } from '@nestjs/common';
 import { AiSuggestionsController } from './ai-suggestions.controller';
 import { AiSuggestionsService } from './ai-suggestions.service';
 import { HttpModule } from '@nestjs/axios';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
-  imports: [HttpModule], // for HTTP requests to Hugging Face
+  imports: [HttpModule,ConfigModule],
   controllers: [AiSuggestionsController],
   providers: [AiSuggestionsService],
 })

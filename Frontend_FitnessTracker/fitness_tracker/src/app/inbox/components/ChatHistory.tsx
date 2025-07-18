@@ -38,8 +38,8 @@ export default function ChatHistory({ darkMode }: { darkMode: boolean }) {
         if (!token) {
           throw new Error('User not authenticated');
         }
-
-        const res = await fetch('http://localhost:3000/messages/chat-history', {
+        const apiBase = process.env.NEXT_PUBLIC_API_URL;
+        const res = await fetch(`${apiBase}/messages/chat-history`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },

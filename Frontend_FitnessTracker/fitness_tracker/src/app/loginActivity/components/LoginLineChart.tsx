@@ -44,7 +44,8 @@ export default function LoginLineChart() {
   useEffect(() => {
     async function fetchWeeklyLogins() {
       try {
-        const res = await fetch('http://localhost:3000/login-activity/weekly-logins');
+        const apiBase = process.env.NEXT_PUBLIC_API_URL;
+        const res = await fetch(`${apiBase}/login-activity/weekly-logins`);
         if (!res.ok) throw new Error('Failed to fetch weekly logins');
         const jsonData: LoginDataPoint[] = await res.json();
 

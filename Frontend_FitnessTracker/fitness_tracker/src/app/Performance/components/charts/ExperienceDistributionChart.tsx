@@ -31,9 +31,10 @@ export default function ExperienceDistributionChart() {
   useEffect(() => {
     async function fetchExperienceData() {
       try {
+        const apiBase = process.env.NEXT_PUBLIC_API_URL;
         const [trainerRes, nutritionistRes] = await Promise.all([
-          fetch("http://localhost:3000/admin/performance/trainer/experience-distribution"),
-          fetch("http://localhost:3000/admin/performance/nutritionist/experience-distribution"),
+          fetch(`${apiBase}/admin/performance/trainer/experience-distribution`),
+          fetch(`${apiBase}/admin/performance/nutritionist/experience-distribution`),
         ]);
 
         const trainerData: ExperienceItem[] = await trainerRes.json();

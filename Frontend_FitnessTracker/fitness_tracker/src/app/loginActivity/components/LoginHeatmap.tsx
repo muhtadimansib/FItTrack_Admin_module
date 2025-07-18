@@ -160,7 +160,8 @@ export default function LoginHeatmap() {
   useEffect(() => {
     async function fetchHeatmap() {
       try {
-        const res = await fetch('http://localhost:3000/login-activity/heatmap');
+        const apiBase = process.env.NEXT_PUBLIC_API_URL;
+        const res = await fetch(`${apiBase}/login-activity/heatmap`);
         if (!res.ok) throw new Error('Failed to fetch heatmap data');
         const data: number[][] = await res.json();
 

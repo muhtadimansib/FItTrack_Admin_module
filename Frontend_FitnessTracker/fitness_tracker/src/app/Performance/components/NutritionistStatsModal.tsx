@@ -35,9 +35,10 @@ export default function NutritionistStatsModal({ nutritionistId, onClose }: Prop
     const fetchData = async () => {
       setLoading(true);
       try {
+        const apiBase = process.env.NEXT_PUBLIC_API_URL;
         const [rating, mealPlanCompletion] = await Promise.all([
-          fetch(`http://localhost:3000/admin/performance/nutritionist/${nutritionistId}/weekly-rating-chart-jsondata`).then(res => res.json()),
-          fetch(`http://localhost:3000/admin/performance/nutritionist/${nutritionistId}/mealplan-completion-jsondata`).then(res => res.json()),
+          fetch(`${apiBase}/admin/performance/nutritionist/${nutritionistId}/weekly-rating-chart-jsondata`).then(res => res.json()),
+          fetch(`${apiBase}/admin/performance/nutritionist/${nutritionistId}/mealplan-completion-jsondata`).then(res => res.json()),
         ]);
         setChartData({ rating, mealPlanCompletion });
       } catch (err) {

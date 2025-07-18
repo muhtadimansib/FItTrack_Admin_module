@@ -10,8 +10,8 @@ export default function useChatHistory() {
       try {
         const userStr = localStorage.getItem("user");
         const token = userStr ? JSON.parse(userStr).Login_token : null;
-
-        const response = await fetch("http://localhost:3000/messages/chat-history", {
+        const apiBase = process.env.NEXT_PUBLIC_API_URL;
+        const response = await fetch(`${apiBase}/messages/chat-history`, {
           method: "GET",
           headers: {
 

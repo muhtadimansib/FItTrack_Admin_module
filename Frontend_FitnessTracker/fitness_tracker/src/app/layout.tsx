@@ -38,15 +38,3 @@ export default function RootLayout({
   );
 }
 
-
-// export default function RootLayout({ children }: { children: React.ReactNode }) {
-//   return (
-//     <html lang="en" suppressHydrationWarning> {/* ✅ prevents hydration warning */}
-//       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-//         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-//           {children}
-//         </ThemeProvider>
-//       </body>
-//     </html>
-//   );
-// }

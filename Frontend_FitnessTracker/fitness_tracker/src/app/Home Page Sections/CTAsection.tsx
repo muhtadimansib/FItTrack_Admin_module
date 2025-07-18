@@ -1,107 +1,10 @@
-// 'use client';
-
-// import { useState, useEffect } from 'react';
-// import { Zap, Heart } from 'lucide-react';
-
-// const CTASection = () => {
-//   const [activeQuote, setActiveQuote] = useState(0);
-//   const quotes = [
-//     {
-//       id: 1,
-//       Icon: Zap,
-//       title: 'Ready to Transform Your Life?',
-//       quote: '',
-//       subtext:
-//         'Join our community today and start your journey towards a healthier, stronger you',
-//       enter: 'slide-in-right',
-//       exit: 'slide-out-left',
-//     },
-//     {
-//       id: 2,
-//       Icon: Heart,
-//       title: 'Stronger Together',
-//       quote: 'The body achieves what the mind believes.',
-//       subtext:
-//         'Join a team that fuels your fire. Together, we rise and break barriers.',
-//       enter: 'slide-in-left',
-//       exit: 'slide-out-right',
-//     },
-//   ];
-
-//   const [animationClass, setAnimationClass] = useState(quotes[0].enter);
-
-//   useEffect(() => {
-//     const interval = setInterval(() => {
-//       setAnimationClass(quotes[activeQuote].exit);
-//       setTimeout(() => {
-//         const next = (activeQuote + 1) % quotes.length;
-//         setActiveQuote(next);
-//         setAnimationClass(quotes[next].enter);
-//       }, 600);
-//     }, 6000);
-//     return () => clearInterval(interval);
-//   }, [activeQuote]);
-
-//   const { Icon, title, quote, subtext } = quotes[activeQuote];
-
-//   return (
-//     <section className="relative h-[300px] overflow-hidden py-20 px-6">
-//       <div
-//         key={activeQuote}
-//         className={`absolute top-0 right-0 h-full flex items-center justify-end transition-all duration-700 ease-in-out ${animationClass}`}
-//         style={{ width: '400px', paddingRight: '2rem' }}
-//       >
-//         {/* Text container */}
-//         <div className="text-right max-w-xs">
-//           <h2 className="text-4xl font-bold mb-2 whitespace-nowrap overflow-hidden text-ellipsis">
-//             {title}
-//           </h2>
-//           {quote && (
-//             <p className="text-2xl text-gray-300 mb-2 italic hover:text-green-400 transition-colors whitespace-nowrap overflow-hidden text-ellipsis">
-//               {quote}
-//             </p>
-//           )}
-//           <p className="text-lg text-gray-400 hover:text-gray-300 transition-colors whitespace-nowrap overflow-hidden text-ellipsis">
-//             {subtext}
-//           </p>
-//         </div>
-//         {/* Icon on the right */}
-//         <div className="flex-shrink-0 ml-6 flex items-center">
-//           <Icon className="w-16 h-16 text-green-500" />
-//         </div>
-//       </div>
-//     </section>
-//   );
-// };
-
-// export default CTASection;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 'use client';
 
 import { useState, useEffect } from 'react';
 import { Zap, Heart } from 'lucide-react';
 import Lottie from 'lottie-react';
-import joinTeamAnimation from '@/lottie icons/Join team.json';
-import communityAnimation from '@/lottie icons/Community.json';
+import joinTeamAnimation from '@/../public/lottie/Join team.json';
+import communityAnimation from '@/../public/lottie/Community.json';
 
 const CTASection = () => {
   const [activeQuote, setActiveQuote] = useState(0);

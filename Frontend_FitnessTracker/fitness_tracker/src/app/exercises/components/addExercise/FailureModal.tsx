@@ -1,6 +1,6 @@
 'use client';
 import Lottie from 'lottie-react';
-import errorAnimation from '@/lottie icons/FailedLoginAttemps.json'; // adjust path
+import errorAnimation from '@/../public/lottie/FailedLoginAttemps.json'; // adjust path
 
 type Props = {
   message: string;

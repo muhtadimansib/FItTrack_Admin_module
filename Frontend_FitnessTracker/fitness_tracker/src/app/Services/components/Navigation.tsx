@@ -30,13 +30,13 @@ const Navigation = () => {
           Services
         </Link>
         <Link
-          href="/About"
+          href="/about"
           className="text-gray-300 hover:text-green-500 hover:scale-105 transition-all font-semibold"
         >
           About
         </Link>
         <Link
-          href="/Contact"
+          href="/contact"
           className="text-gray-300 hover:text-green-500 hover:scale-105 transition-all font-semibold"
         >
           Contact

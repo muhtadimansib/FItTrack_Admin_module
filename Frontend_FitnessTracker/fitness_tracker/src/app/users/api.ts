@@ -1,6 +1,6 @@
 import { Client, Trainer, Nutritionist, PendingUser } from "@/app/users/userTypes";
-
-const BASE_URL = "http://localhost:3000/users";
+const apiBase = process.env.NEXT_PUBLIC_API_URL;
+const BASE_URL = `${apiBase}/users`;
 
 export const fetchClients = async (): Promise<Client[]> => {
   const res = await fetch(`${BASE_URL}/clients`);

@@ -1,84 +1,10 @@
-// // app/exercises/addExercise.tsx or pages/exercises/addExercise.tsx
-// 'use client';
-
-// import { useRouter } from 'next/navigation';
-// import { motion } from 'framer-motion';
-// import CommonLayout from '../../../layouts/commonLayout';
-// import { Button } from '../ui/button';
-
-// export default function AddExercisePage() {
-//   const router = useRouter();
-
-//   return (
-//     <CommonLayout activePage="Exercises">
-//       {({ darkMode }) => (
-//         <motion.div
-//           initial={{ opacity: 0, y: 20 }}
-//           animate={{ opacity: 1, y: 0 }}
-//           exit={{ opacity: 0, y: -20 }}
-//           transition={{ duration: 0.4 }}
-//           className="p-6 space-y-6"
-//         >
-//           <h1 className="text-3xl font-bold">
-//             Add New Exercise
-//           </h1>
-
-//           {/* Add Exercise Form */}
-//           <div className={`${darkMode ? 'bg-gray-800' : 'bg-white'} p-6 rounded-xl shadow`}>
-//             <form>
-//               {/* Add your fields here */}
-//               <input
-//                 type="text"
-//                 placeholder="Exercise Name"
-//                 className="w-full mb-4 p-2 border rounded"
-//               />
-//               {/* More fields... */}
-
-//               <div className="flex gap-4 mt-4">
-//                 <Button className="bg-green-600 hover:bg-green-700 text-white">
-//                   Save
-//                 </Button>
-//                 <Button
-//                   variant="outline"
-//                   onClick={(e) => {
-//                     e.preventDefault();
-//                     router.push('/exercises');
-//                   }}
-//                 >
-//                   Cancel
-//                 </Button>
-//               </div>
-//             </form>
-//           </div>
-//         </motion.div>
-//       )}
-//     </CommonLayout>
-//   );
-// }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 "use client";
 
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Save, X, Upload, Play, ArrowLeft, Dumbbell } from "lucide-react";
 import CommonLayout from "@/app/layouts/commonLayout";
-import successLottie from "@/lottie icons/success.json";
+import successLottie from "@/../public/lottie/success.json";
 import Lottie from "lottie-react";
 
 const categories = ["Strength", "Cardio", "Flexibility", "Core", "HIIT", "Yoga", "Pilates", "Sports"];
@@ -142,8 +68,9 @@ export default function AddExercisePage() {
           }
 
           try {
-            // 🔎 Check for duplicate by name (case-insensitive)
-            const checkRes = await fetch(`http://localhost:3000/exercises/name/${encodeURIComponent(name)}`);
+            //Check for duplicate by name (case-insensitive)
+            const apiBase = process.env.NEXT_PUBLIC_API_URL;
+            const checkRes = await fetch(`${apiBase}/exercises/name/${encodeURIComponent(name)}`);
             if (checkRes.ok) {
               const existing = await checkRes.json();
               if (existing && existing.name?.toLowerCase() === name.toLowerCase()) {
@@ -152,8 +79,8 @@ export default function AddExercisePage() {
               }
             }
 
-            // ✅ Proceed to create new exercise
-            const createRes = await fetch("http://localhost:3000/exercises/create", {
+            //Proceed to create new exercise
+            const createRes = await fetch(`${apiBase}/exercises/create`, {
               method: "POST",
               headers: {
                 "Content-Type": "application/json",

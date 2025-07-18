@@ -36,9 +36,10 @@ export default function WeeklyRatingChart({ darkMode }: Props) {
   useEffect(() => {
     async function fetchRatings() {
       try {
+        const apiBase = process.env.NEXT_PUBLIC_API_URL;
         const [trainerRes, nutritionistRes] = await Promise.all([
-          fetch("http://localhost:3000/admin/performance/trainer-weekly-ratings"),
-          fetch("http://localhost:3000/admin/performance/nutritionist-weekly-ratings"),
+          fetch(`${apiBase}/admin/performance/trainer-weekly-ratings`),
+          fetch(`${apiBase}/admin/performance/nutritionist-weekly-ratings`),
         ]);
 
         const trainerData = await trainerRes.json();

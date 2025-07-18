@@ -1,57 +1,246 @@
+"use client";
 
-'use client';
+import Navigation from "../Services/components/Navigation";
+import { Card, CardContent } from "./Card";
+import { Users, Target, Award, Heart } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import Lottie from "lottie-react";
+import resultAnimation from "@/../public/lottie/success.json";
+import communityAnimation from "@/../public/lottie/Community.json";
+import wellnessAnimation from "@/../public/lottie/Mission.json";
+import { useEffect, useState } from "react";
 
-import Navigation from '../Services/components/Navigation'; // Adjust path accordingly
-import { Activity } from 'lucide-react';
+const About = () => {
+  const stats = [
+    { icon: <Users className="h-8 w-8 text-green-400" />, value: "50K+", label: "Active Users" },
+    { icon: <Target className="h-8 w-8 text-green-400" />, value: "98%", label: "Success Rate" },
+    { icon: <Award className="h-8 w-8 text-green-400" />, value: "500+", label: "Certified Trainers" },
+    { icon: <Heart className="h-8 w-8 text-green-400" />, value: "10+", label: "Years Experience" }
+  ];
 
-export default function About() {
+  const team = [
+    {
+      name: "Sarah Johnson",
+      role: "Founder & Head Trainer",
+      bio: "Certified fitness expert with 15+ years of experience in transforming lives through fitness.",
+      image: "/images/Founder.jpg"
+    },
+    {
+      name: "Mike Chen",
+      role: "Nutrition Specialist",
+      bio: "Licensed nutritionist helping clients optimize their diet for peak performance.",
+      image: "/placeholder.svg"
+    },
+    {
+      name: "Emma Davis",
+      role: "Wellness Coach",
+      bio: "Holistic wellness expert focusing on mind-body connection and sustainable habits.",
+      image: "/placeholder.svg"
+    }
+  ];
+
+  const values = [
+    {
+      animation: resultAnimation,
+      title: "Results-Driven",
+      description: "We're committed to helping you achieve measurable results through science-based fitness approaches."
+    },
+    {
+      animation: communityAnimation,
+      title: "Community First",
+      description: "Building a supportive community where everyone feels welcomed and motivated to succeed."
+    },
+    {
+      animation: wellnessAnimation,
+      title: "Holistic Wellness",
+      description: "We believe fitness goes beyond physical - it's about mental health, nutrition, and lifestyle."
+    }
+  ];
+
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentIndex((prev) => (prev + 1) % values.length);
+    }, 6000); // Change value every 6 seconds
+    return () => clearInterval(interval);
+  }, [values.length]);
+
   return (
-    <>
+    <div
+      className="min-h-screen text-white"
+      style={{
+        backgroundImage: `
+          radial-gradient(at bottom left, rgba(220, 38, 38, 0.12), transparent 70%),
+          radial-gradient(at top right, rgba(34, 197, 94, 0.12), transparent 70%),
+          linear-gradient(to right, rgba(34, 197, 94, 0.1), rgba(59, 130, 246, 0.1))
+        `,
+        backgroundRepeat: "no-repeat",
+        backgroundSize: "cover",
+      }}
+    >
       <Navigation />
-      <main className="min-h-screen bg-[#0F172A] text-white px-6 py-16 max-w-5xl mx-auto">
-        {/* Hero Section */}
-        <section className="mb-16 text-center">
-          <Activity className="mx-auto mb-4 w-12 h-12 text-green-400 animate-pulse" />
-          <h1 className="text-5xl font-extrabold mb-4 text-green-400">About FitTrack</h1>
-          <p className="text-gray-300 max-w-3xl mx-auto text-lg leading-relaxed">
-            Empowering your fitness journey with expert coaching, personalized plans, and a vibrant community.
-          </p>
-        </section>
 
-        {/* Info Card */}
-        <section className="bg-gray-900 bg-opacity-50 rounded-3xl p-10 shadow-lg max-w-4xl mx-auto">
-          <h2 className="text-3xl font-semibold mb-6 border-l-4 border-green-400 pl-4">
-            Our Mission
-          </h2>
-          <p className="text-gray-300 text-lg mb-8 leading-relaxed">
-            FitTrack is your ultimate fitness companion, designed to help you achieve your health and wellness goals through personalized training plans, nutrition coaching, and progress tracking. Our mission is to empower every individual to transform their fitness journey with expert guidance and a supportive community.
-          </p>
-
-          <h2 className="text-3xl font-semibold mb-6 border-l-4 border-green-400 pl-4">
-            Why Choose FitTrack?
-          </h2>
-          <ul className="list-disc list-inside text-gray-300 space-y-3 text-lg">
-            <li>Personalized fitness plans tailored for you</li>
-            <li>Certified trainers and nutrition coaches</li>
-            <li>Community support and motivation</li>
-            <li>Progress tracking and goal setting</li>
-            <li>Flexible scheduling to fit your lifestyle</li>
-          </ul>
-        </section>
-
-        {/* Call to Action */}
-        <section className="mt-16 text-center">
-          <p className="text-gray-300 text-xl mb-6 max-w-3xl mx-auto">
-            Ready to transform your fitness journey? Join thousands of members achieving their goals with FitTrack.
-          </p>
-          <button
-            onClick={() => window.location.href = '/Services'}
-            className="bg-green-500 hover:bg-green-600 text-white px-8 py-3 rounded-full font-semibold transition transform hover:scale-105 shadow-lg"
+      {/*MISSION SECTION */}
+      <div className="container mx-auto px-6 py-20 space-y-32">
+        
+        <motion.div
+          initial={{ opacity: 0, x: -100 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          transition={{ duration: 1 }}
+          className="grid lg:grid-cols-2 gap-12 items-center"
+        >
+          <div className="space-y-6">
+            <h2 className="text-3xl font-bold text-white">Our Mission</h2>
+            <p className="text-gray-300 text-lg">
+              To democratize fitness by making professional-grade training and wellness 
+              guidance accessible to everyone, regardless of their starting point or fitness level.
+            </p>
+            <p className="text-gray-300">
+              We believe that everyone deserves to feel strong, confident, and healthy. 
+              Our platform combines the expertise of certified professionals with innovative 
+              technology to create personalized fitness journeys that actually work.
+            </p>
+          </div>
+          <motion.div
+            initial={{ scale: 0.8, opacity: 0 }}
+            whileInView={{ scale: 1, opacity: 1 }}
+            transition={{ duration: 0.8 }}
+            className="relative"
           >
-            Explore Our Services
-          </button>
-        </section>
-      </main>
-    </>
+            <img
+              src="/images/Mission.jpg"
+              alt="Fitness training"
+              className="w-full h-80 object-cover rounded-lg"
+            />
+          </motion.div>
+        </motion.div>
+
+        {/*HERO SECTION (About FitTrack) */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.8 }}
+          className="text-center space-y-6"
+        >
+          <h1 className="text-4xl lg:text-5xl font-bold text-white">
+            About <span className="text-green-400">FitTrack</span>
+          </h1>
+          <p className="text-gray-300 text-lg max-w-3xl mx-auto">
+            Founded in 2014, FitTrack has been at the forefront of fitness innovation, 
+            helping thousands of people transform their lives through personalized fitness solutions 
+            and cutting-edge technology.
+          </p>
+        </motion.div>
+
+        {/* Stats Section */}
+        <motion.div
+          initial={{ opacity: 0, y: 50 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          className="grid grid-cols-2 lg:grid-cols-4 gap-6"
+        >
+          {stats.map((stat, index) => (
+            <motion.div
+              key={index}
+              whileHover={{ scale: 1.05 }}
+              transition={{ type: "spring", stiffness: 200 }}
+            >
+              <Card className="bg-slate-800/50 border-slate-700 text-center">
+                <CardContent className="p-6 space-y-3">
+                  <div className="flex justify-center">{stat.icon}</div>
+                  <div className="text-3xl font-bold text-white">{stat.value}</div>
+                  <div className="text-gray-300 text-sm">{stat.label}</div>
+                </CardContent>
+              </Card>
+            </motion.div>
+          ))}
+        </motion.div>
+
+{/* Values + Team Section (Combined) */}
+{/* Values + Team Section (Compact) */}
+<section className="relative z-10 flex flex-col gap-20 px-6 py-16">
+  {/* Values Slide Section */}
+  <AnimatePresence mode="wait">
+    <motion.div
+      key={currentIndex}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="flex flex-col lg:flex-row items-center justify-between gap-12 max-w-7xl w-full mx-auto"
+    >
+      {/* LEFT TEXT */}
+      <motion.div
+        initial={{ x: -100, opacity: 0 }}
+        animate={{ x: 0, opacity: 1 }}
+        exit={{ x: -100, opacity: 0 }}
+        transition={{ duration: 0.8 }}
+        className="max-w-xl w-full text-center lg:text-left"
+      >
+        <p className="text-green-400 text-base font-semibold mb-2 tracking-wide">
+          ★ Core Value
+        </p>
+        <h2 className="text-3xl lg:text-4xl font-extrabold mb-4">
+          {values[currentIndex].title}
+        </h2>
+        <p className="text-base lg:text-lg text-slate-300 leading-relaxed">
+          {values[currentIndex].description}
+        </p>
+      </motion.div>
+
+      {/* RIGHT LOTTIE */}
+      <motion.div
+        initial={{ x: 100, opacity: 0 }}
+        animate={{ x: 0, opacity: 1 }}
+        exit={{ x: 100, opacity: 0 }}
+        transition={{ duration: 0.8 }}
+        className="relative w-full max-w-sm flex items-center justify-center"
+      >
+        <div className="bg-slate-800/40 rounded-xl border border-green-400 p-4 shadow-lg">
+          <Lottie
+            animationData={values[currentIndex].animation}
+            loop
+            className="w-64 h-64"
+          />
+        </div>
+      </motion.div>
+    </motion.div>
+  </AnimatePresence>
+
+  {/* Team Section */}
+  <div className="space-y-12 max-w-7xl mx-auto w-full">
+    <h2 className="text-3xl font-bold text-white text-center">Meet Our Team</h2>
+    <motion.div
+      initial={{ opacity: 0, scale: 0.95 }}
+      whileInView={{ opacity: 1, scale: 1 }}
+      transition={{ duration: 0.6 }}
+      className="grid md:grid-cols-3 gap-8"
+    >
+      {team.map((member, index) => (
+        <motion.div
+          key={index}
+          whileHover={{ scale: 1.05 }}
+          transition={{ type: "spring", stiffness: 200 }}
+        >
+          <Card className="bg-slate-800/50 border-slate-700 hover:border-green-400/50 transition-all duration-300">
+            <CardContent className="p-6 text-center space-y-4">
+              <div className="w-24 h-24 bg-slate-700 rounded-full mx-auto"></div>
+              <div className="space-y-2">
+                <h3 className="text-xl font-bold text-white">{member.name}</h3>
+                <p className="text-green-400 font-medium">{member.role}</p>
+                <p className="text-gray-300 text-sm">{member.bio}</p>
+              </div>
+            </CardContent>
+          </Card>
+        </motion.div>
+      ))}
+    </motion.div>
+  </div>
+</section>
+
+      </div>
+    </div>
   );
-}
+};
+
+export default About;

@@ -46,17 +46,6 @@ const FeatureSection = () => {
     return () => clearInterval(interval);
   }, []);
 
-  // Get 3 features to show, cycling through array circularly
-  const getVisibleFeatures = () => {
-    const visible = [];
-    for (let i = 0; i < 3; i++) {
-      visible.push(features[(startIndex + i) % features.length]);
-    }
-    return visible;
-  };
-
-  const visibleFeatures = getVisibleFeatures();
-
   return (
     <section className="py-20 px-6 bg-gradient-to-b from-transparent to-gray-900/50 overflow-hidden">
       <h2 className="text-4xl font-bold text-center mb-16 text-white">
@@ -71,7 +60,7 @@ const FeatureSection = () => {
             transform: `translateX(-${startIndex * (33.333 + 6)}%)`, // Add gap % approx here
           }}
         >
-          {features.map(({ Icon, title, text }, i) => (
+          {features.map(({ Icon, title, text }) => (
             <div
               key={title}
               className="flex-shrink-0"

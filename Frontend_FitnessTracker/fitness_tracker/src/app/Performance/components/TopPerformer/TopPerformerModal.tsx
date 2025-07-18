@@ -5,52 +5,65 @@ import { ModalData } from "./types";
 import TrainerRatingChart from "../charts/TrainerRatingTrendChart";
 import TrainerGoalCompletionChart from "../charts/GoalCompletionChart";
 
+interface TrainerChartData {
+  rating: Array<{ date: string; averageRating: number }>;
+  goal: Array<{ name: string; rate: number }>;
+}
 
 function getInitials(name: string) {
   return name
-    ? name.split(" ").map((n) => n[0]).join("").toUpperCase()
+    ? name
+        .split(" ")
+        .map((n) => n[0])
+        .join("")
+        .toUpperCase()
     : "";
 }
 
 type Props = {
   modalData: ModalData;
   onClose: () => void;
-  darkMode: boolean; 
+  darkMode: boolean;
 };
 
-export default function TopPerformerModal({ modalData, onClose,darkMode }: Props) {
-  const [showModal, setShowModal] = useState(false);
-  const [chartData, setChartData] = useState<any>({});
+export default function TopPerformerModal({ modalData, onClose, darkMode }: Props) {
+  const [showModal, setShowModal] = useState(false); // controls fade-in/out
+  const [chartData, setChartData] = useState<TrainerChartData>({
+    rating: [],
+    goal: [],
+  });
   const [loading, setLoading] = useState(true);
   const [currentChartIndex, setCurrentChartIndex] = useState(0);
-  const chartTitles = ['Rating Trend (Over Time)', 'Goal Completion Rate'];
+  const chartTitles = ["Rating Trend (Over Time)", "Goal Completion Rate"];
 
   useEffect(() => {
-  const fetchData = async () => {
-    if (modalData?.type !== "trainer") return; // only fetch if trainer
-    setLoading(true);
-    try {
-      const apiBase = process.env.NEXT_PUBLIC_API_URL;
-      const [rating, goal] = await Promise.all([
-        fetch(`${apiBase}/admin/performance/trainer/${modalData.data.id}/weekly-rating-chart-jsondata`).then(r => r.json()),
-        fetch(`${apiBase}/admin/performance/trainer/${modalData.data.id}/goal-completion-jsondata`).then(r => r.json()),
-      ]);
-      setChartData({ rating, goal });
-    } catch (error) {
-      console.error("Failed to fetch charts:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
+    // Fade in after mount
+    setTimeout(() => setShowModal(true), 10);
 
-  fetchData();
-}, [modalData]);
+    const fetchData = async () => {
+      if (modalData?.type !== "trainer") return; // only fetch if trainer
+      setLoading(true);
+      try {
+        const apiBase = process.env.NEXT_PUBLIC_API_URL;
+        const [rating, goal] = await Promise.all([
+          fetch(
+            `${apiBase}/admin/performance/trainer/${modalData.data.id}/weekly-rating-chart-jsondata`
+          ).then((r) => r.json()),
+          fetch(
+            `${apiBase}/admin/performance/trainer/${modalData.data.id}/goal-completion-jsondata`
+          ).then((r) => r.json()),
+        ]);
+        setChartData({ rating, goal });
+      } catch (error) {
+        console.error("Failed to fetch charts:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  useEffect(() => {
-    setShowModal(true);
-  }, []);
+    fetchData();
+  }, [modalData]);
 
-  console.log("modalData:", modalData);
   if (!modalData || !modalData.data) return null;
 
   const { name, image, rating, clients, specialization, certification, bio } = modalData.data;
@@ -59,25 +72,31 @@ export default function TopPerformerModal({ modalData, onClose,darkMode }: Props
   const subTextClass = darkMode ? "text-zinc-400" : "text-zinc-600";
 
   const handleClose = () => {
+    // Fade out before calling parent onClose
     setShowModal(false);
-    setTimeout(() => onClose(), 300);
+    setTimeout(() => {
+      onClose();
+    }, 300); // match transition duration
   };
 
   return createPortal(
     <div
-      className="fixed inset-0 z-[9999] flex items-center justify-center backdrop-blur-sm bg-white/30 dark:bg-black/30"
+      className={`fixed inset-0 z-[9999] flex items-center justify-center 
+        backdrop-blur-sm 
+        transition-opacity duration-300
+        ${showModal ? "opacity-100" : "opacity-0"}
+        bg-white/30 dark:bg-black/30`}
       onClick={handleClose}
     >
       <div
         onClick={(e) => e.stopPropagation()}
         style={{ fontFamily: '"Segoe UI", sans-serif' }}
-        className={`
-          relative
-          w-11/12 max-w-4xl min-h-[300px] p-6 rounded-2xl shadow-xl
+        className={`relative w-11/12 max-w-4xl min-h-[300px] p-6 rounded-2xl shadow-xl 
           transform transition-all duration-300
-          ${bgClass} translate-y-0 opacity-100 z-[9999]
-        `}
+          ${showModal ? "scale-100 opacity-100" : "scale-95 opacity-0"}
+          ${bgClass} z-[9999]`}
       >
+        {/* Close Button */}
         <button
           onClick={handleClose}
           aria-label="Close modal"
@@ -86,6 +105,7 @@ export default function TopPerformerModal({ modalData, onClose,darkMode }: Props
           ✕
         </button>
 
+        {/* Profile Header */}
         <div className="flex items-center gap-4 border-b pb-6 mb-6">
           {image ? (
             <div className="avatar">
@@ -108,6 +128,7 @@ export default function TopPerformerModal({ modalData, onClose,darkMode }: Props
           </div>
         </div>
 
+        {/* Details */}
         <div className="space-y-3">
           <p className="font-semibold">
             ⭐ Average Rating: <span className="font-normal">{rating}</span>
@@ -126,6 +147,7 @@ export default function TopPerformerModal({ modalData, onClose,darkMode }: Props
           </p>
         </div>
 
+        {/* Charts */}
         {modalData.type === "trainer" && (
           <div className="mt-6 border-t pt-6">
             <h3 className="text-lg font-semibold text-center mb-4">
@@ -149,14 +171,14 @@ export default function TopPerformerModal({ modalData, onClose,darkMode }: Props
                 <div className="flex justify-between mt-6">
                   <button
                     disabled={currentChartIndex === 0}
-                    onClick={() => setCurrentChartIndex(i => i - 1)}
+                    onClick={() => setCurrentChartIndex((i) => i - 1)}
                     className="btn btn-sm bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50"
                   >
                     ◀ Previous
                   </button>
                   <button
                     disabled={currentChartIndex === chartTitles.length - 1}
-                    onClick={() => setCurrentChartIndex(i => i + 1)}
+                    onClick={() => setCurrentChartIndex((i) => i + 1)}
                     className="btn btn-sm bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50"
                   >
                     Next ▶
@@ -166,11 +188,8 @@ export default function TopPerformerModal({ modalData, onClose,darkMode }: Props
             )}
           </div>
         )}
-        
-    </div>
+      </div>
     </div>,
     document.body
   );
 }
-
-

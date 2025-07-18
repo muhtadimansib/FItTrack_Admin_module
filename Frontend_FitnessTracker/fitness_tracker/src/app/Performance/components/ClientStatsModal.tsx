@@ -11,14 +11,45 @@ interface Props {
   onClose: () => void;
 }
 
+//Types for API responses
+interface StepCountData {
+  scatterData: { x: number; y: number }[];
+}
+
+interface SleepHoursData {
+  labels: string[];
+  sleepHours: number[];
+}
+
+interface SleepEfficiencyData {
+  scatterData: { x: number; y: number }[];
+  trendLine: { x: number; y: number }[];
+}
+
+interface BubbleChartData {
+  bubbleData: { x: number; y: number; r: number }[];
+}
+
+interface ChartData {
+  step: StepCountData;
+  sleep: SleepHoursData;
+  efficiency: SleepEfficiencyData;
+  bubble: BubbleChartData;
+}
+
 export default function ClientStatsModal({ clientId, onClose }: Props) {
   const [currentChartIndex, setCurrentChartIndex] = useState(0);
-  const [chartData, setChartData] = useState<any>({});
+  const [chartData, setChartData] = useState<ChartData | null>(null);
   const [loading, setLoading] = useState(true);
   const [darkMode, setDarkMode] = useState(false);
   const [showModal, setShowModal] = useState(false); // For animation
 
-  const charts = ['Scatter Plot (Burned Calories vs Step Counts) ', 'Sleep Hours Over time', 'Scatter Plot (Burned Calories vs Sleep Effieciency)', 'Bubble Chart of Steps vs calories burned'];
+  const charts = [
+    'Scatter Plot (Burned Calories vs Step Counts)',
+    'Sleep Hours Over Time',
+    'Scatter Plot (Burned Calories vs Sleep Efficiency)',
+    'Bubble Chart of Steps vs Calories Burned'
+  ];
 
   // Detect theme from localStorage
   useEffect(() => {
@@ -67,19 +98,19 @@ export default function ClientStatsModal({ clientId, onClose }: Props) {
 
   const renderChart = () => {
     if (loading) return <p className="text-center p-4">Loading...</p>;
-    if (!chartData.step || !chartData.sleep || !chartData.efficiency || !chartData.bubble) {
+    if (!chartData) {
       return <p className="text-center text-red-500">Chart data not available.</p>;
     }
 
     switch (currentChartIndex) {
       case 0:
-        return  <StepCountChart {...chartData.step} darkMode={darkMode} />;
+        return <StepCountChart {...chartData.step} />;
       case 1:
-        return <SleepHoursChart {...chartData.sleep} darkMode={darkMode} />;
+        return <SleepHoursChart {...chartData.sleep} />;
       case 2:
-        return <SleepEfficiencyChart {...chartData.efficiency} darkMode={darkMode} />;
+        return <SleepEfficiencyChart {...chartData.efficiency} />;
       case 3:
-        return <BubbleChart {...chartData.bubble} darkMode={darkMode} />;
+        return <BubbleChart {...chartData.bubble} />;
       default:
         return null;
     }
@@ -102,7 +133,7 @@ export default function ClientStatsModal({ clientId, onClose }: Props) {
             onClick={handleClose}
             className="text-red-600 hover:text-red-800 font-semibold"
           >
-            ✕ 
+            ✕
           </button>
         </div>
 
@@ -130,4 +161,3 @@ export default function ClientStatsModal({ clientId, onClose }: Props) {
     </div>
   );
 }
-

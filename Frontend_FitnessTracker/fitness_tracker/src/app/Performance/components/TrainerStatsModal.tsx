@@ -10,9 +10,28 @@ interface Props {
   onClose: () => void;
 }
 
+interface RatingDataPoint {
+  date: string;
+  averageRating: number;
+}
+
+interface GoalDataPoint {
+  name: string;
+  rate: number;
+}
+
+interface ChartData {
+  rating: RatingDataPoint[];
+  goal: GoalDataPoint[];
+}
+
 export default function TrainerStatsModal({ trainerId, onClose }: Props) {
   const [currentChartIndex, setCurrentChartIndex] = useState(0);
-  const [chartData, setChartData] = useState<any>({});
+  const [chartData, setChartData] = useState<ChartData>({
+  rating: [],
+  goal: [],
+});
+
   const [loading, setLoading] = useState(true);
   const [darkMode, setDarkMode] = useState(false);
   const [showModal, setShowModal] = useState(false);

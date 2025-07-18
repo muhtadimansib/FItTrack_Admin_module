@@ -1,6 +1,30 @@
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+'use client';
 
-export default function TrainerRatingTrendChart({ data, darkMode }: { data: any[]; darkMode: boolean }) {
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+} from 'recharts';
+
+// Proper type for chart data
+interface TrainerRatingData {
+  date: string;
+  averageRating: number;
+}
+
+interface TrainerRatingTrendChartProps {
+  data: TrainerRatingData[];
+  darkMode: boolean;
+}
+
+export default function TrainerRatingTrendChart({
+  data,
+  darkMode,
+}: TrainerRatingTrendChartProps) {
   return (
     <ResponsiveContainer width="100%" height={300}>
       <LineChart data={data}>
@@ -8,7 +32,12 @@ export default function TrainerRatingTrendChart({ data, darkMode }: { data: any[
         <XAxis dataKey="date" stroke={darkMode ? '#fff' : '#000'} />
         <YAxis domain={[0, 5]} stroke={darkMode ? '#fff' : '#000'} />
         <Tooltip />
-        <Line type="monotone" dataKey="averageRating" stroke="#4ade80" strokeWidth={2} />
+        <Line
+          type="monotone"
+          dataKey="averageRating"
+          stroke="#4ade80"
+          strokeWidth={2}
+        />
       </LineChart>
     </ResponsiveContainer>
   );

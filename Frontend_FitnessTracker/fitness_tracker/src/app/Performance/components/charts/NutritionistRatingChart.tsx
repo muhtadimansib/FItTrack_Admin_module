@@ -11,12 +11,21 @@ import {
   Legend,
 } from 'recharts';
 
+// Proper type for chart data
+interface NutritionistRatingData {
+  week: string;
+  averageRating: number;
+}
+
 interface NutritionistRatingChartProps {
-  data: any; // expect array of objects with { week: string, averageRating: number }
+  data: NutritionistRatingData[]; 
   darkMode: boolean;
 }
 
-export default function NutritionistRatingChart({ data, darkMode }: NutritionistRatingChartProps) {
+export default function NutritionistRatingChart({
+  data,
+  darkMode,
+}: NutritionistRatingChartProps) {
   if (!Array.isArray(data)) return null;
 
   return (
@@ -35,9 +44,12 @@ export default function NutritionistRatingChart({ data, darkMode }: Nutritionist
           allowDecimals={false}
         />
         <Tooltip
-          contentStyle={{ backgroundColor: darkMode ? '#333' : '#fff', borderRadius: 5 }}
+          contentStyle={{
+            backgroundColor: darkMode ? '#333' : '#fff',
+            borderRadius: 5,
+          }}
           labelStyle={{ color: darkMode ? '#eee' : '#111' }}
-          formatter={(value: any) => value.toFixed(2)}
+          formatter={(value: number) => value.toFixed(2)}
         />
         <Legend wrapperStyle={{ color: darkMode ? '#eee' : '#111' }} />
         <Line

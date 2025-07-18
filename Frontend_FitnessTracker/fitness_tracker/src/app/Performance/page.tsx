@@ -12,30 +12,17 @@ import { ModalData } from "../Performance/components/TopPerformer/types";
 const tabOptions = ["Overview", "Trainers", "Nutritionists", "Clients"];
 
 export default function PerformancePage() {
-  const [modalData, setModalData] = useState<ModalData>(null);
+  const [modalData, setModalData] = useState<ModalData | null>(null);
   const [activeTab, setActiveTab] = useState("Overview");
-  const [topTrainer, setTopTrainer] = useState<any>(null);
-  const [topNutritionist, setTopNutritionist] = useState<any>(null);
-  const [darkMode, setDarkMode] = useState(false);
+  const [topTrainer, setTopTrainer] = useState<ModalData | null>(null);
+  const [topNutritionist, setTopNutritionist] = useState<ModalData | null>(null);
 
   return (
     <CommonLayout activePage="Performance">
       {({ darkMode }) => (
         <div className="space-y-6">
-          {/* Top Performers Always Visible */}
+          {/* Top Performers */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-            {/* <TopPerformerCard
-              type="trainer"
-               onClick={() => topTrainer && setModalData(topTrainer)}
-              setData={setTopTrainer}
-            />
-            <TopPerformerCard
-              type="nutritionist"
-              delay={0.2}
-             onClick={() => topNutritionist && setModalData(topNutritionist)}
-              setData={setTopNutritionist}
-            /> */}
-
             <TopPerformerCard
               type="trainer"
               delay={0.1}  // <-- add a small delay to enable animation
@@ -48,7 +35,6 @@ export default function PerformancePage() {
               onClick={() => topNutritionist && setModalData(topNutritionist)}
               setData={setTopNutritionist}
             />
-
           </div>
 
           <TopPerformerModal modalData={modalData} onClose={() => setModalData(null)} darkMode={darkMode} />
@@ -76,4 +62,3 @@ export default function PerformancePage() {
     </CommonLayout>
   );
 }
-

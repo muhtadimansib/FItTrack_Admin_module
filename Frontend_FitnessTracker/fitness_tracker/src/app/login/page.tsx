@@ -94,7 +94,7 @@ export default function Login() {
 
       if (data.Login_token) {
         localStorage.setItem("user", JSON.stringify(data));
-        router.push(`${apiBase}/dashboard`); 
+        router.push(`${apiBase}/admin/dashboard`); 
       } else {
         showToastMessage("Invalid credentials. Login failed");
       }

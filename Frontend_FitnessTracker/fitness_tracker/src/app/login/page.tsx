@@ -93,8 +93,7 @@ export default function Login() {
 
       if (data.Login_token) {
         localStorage.setItem("user", JSON.stringify(data));
-        // Redirect to dashboard or another page
-        router.push("/dashboard"); // Change this path to your intended page
+        router.push(`${apiBase}/dashboard`); 
       } else {
         showToastMessage("Invalid credentials. Login failed");
       }

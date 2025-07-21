@@ -6,7 +6,7 @@ async function bootstrap() {
 
   app.enableCors({
     origin: [
-      'https://f-it-track-admin-module-sigma.vercel.app/',
+      'https://f-it-track-admin-module-sigma.vercel.app',
       'http://localhost:3001', 
     ],
     credentials: true,

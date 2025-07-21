@@ -77,6 +77,7 @@ export default function Login() {
       const apiBase = process.env.NEXT_PUBLIC_API_URL;
       const response = await fetch(`${apiBase}/auth/login`, {
         method: "POST",
+        credentials: "include",
         headers: {
           "Content-Type": "application/json",
         },

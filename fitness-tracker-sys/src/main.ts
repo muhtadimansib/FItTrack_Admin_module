@@ -10,6 +10,7 @@ async function bootstrap() {
       'http://localhost:3001', 
     ],
     credentials: true,
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
   });
 
   await app.listen(process.env.PORT ?? 3000);

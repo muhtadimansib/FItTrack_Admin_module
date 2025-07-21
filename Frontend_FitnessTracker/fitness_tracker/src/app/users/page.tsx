@@ -6,11 +6,7 @@ import { fetchClients } from "@/app/users/api";
 import { fetchTrainers } from "@/app/users/api";
 import { fetchNutritionists } from "@/app/users/api";
 import { fetchPendingUsers } from "@/app/users/api";
-import { Client } from "@/app/users/userTypes";
-import { Trainer } from "@/app/users/userTypes";
-import { Nutritionist } from "@/app/users/userTypes";
-import { PendingUser } from "@/app/users/userTypes";
-import { div } from "framer-motion/client";
+
 
 // Mock user data (with roles)
 const roles = ["Client", "Trainer", "Nutritionist", "Pending Users"];
@@ -53,7 +49,17 @@ export default function UsersPage() {
 
 
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  interface UserItem {
+  name: string;
+  email: string;
+  signup: string; // formatted date or "N/A"
+  image: string;  // resolved image URL
+  role: "Client" | "Trainer" | "Nutritionist" | "Pending Users" | string;
 
+  // Add these fields so TS doesn’t complain during mapping:
+  profileImageUrl?: string; 
+  createdAt?: string; // ISO date string from backend
+}
   const [allUsers, setAllUsers] = useState<any[]>([]);
   const [selectedRole, setSelectedRole] = useState("Client");
 
@@ -121,109 +127,11 @@ export default function UsersPage() {
     loadUsers();
   }, [selectedRole]);
 
-
-
-
-  ///////////////////------------------Fetching Client List-----------------------/////////////////////////////
-
-  const ClientList = () => {
-    const [clients, setClients] = useState<Client[]>([]);
-    const [loading, setLoading] = useState(true);
-
-    useEffect(() => {
-      fetchClients()
-        .then((data) => setClients(data))
-        .catch((error) => console.error("Error fetching clients:", error))
-        .finally(() => setLoading(false));
-    }, []);
-  }
-
-  /////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-
-  ///////////////////------------------Fetching Trainer List-----------------------/////////////////////////////
-
-  const TrainerList = () => {
-    const [trainers, setTrainers] = useState<Trainer[]>([]);
-    const [loading, setLoading] = useState(true);
-
-    useEffect(() => {
-      const loadTrainers = async () => {
-        try {
-          const data = await fetchTrainers();
-          setTrainers(data);
-        } catch (err) {
-          console.error("Failed to fetch trainers:", err);
-        } finally {
-          setLoading(false);
-        }
-      };
-      loadTrainers();
-    }, []);
-  }
-  /////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-  ///////////////////------------------Fetching Nutritionist List-----------------------/////////////////////////////
-
-  const NutritionistList = () => {
-    const [nutritionists, setNutritionists] = useState<Nutritionist[]>([]);
-    const [loading, setLoading] = useState(true);
-
-    useEffect(() => {
-      const loadNutritionists = async () => {
-        try {
-          const data = await fetchNutritionists();
-          setNutritionists(data);
-        } catch (err) {
-          console.error("Failed to fetch nutritionists:", err);
-        } finally {
-          setLoading(false);
-        }
-      };
-      loadNutritionists();
-    }, []);
-  }
-  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-  ///////////////////------------------Fetching Pending User List-----------------------/////////////////////////////
-
-  const PendingUserList = () => {
-    const [pendingUsers, setPendingUsers] = useState<PendingUser[]>([]);
-    const [loading, setLoading] = useState(true);
-
-    useEffect(() => {
-      const loadPendingUsers = async () => {
-        try {
-          const data = await fetchPendingUsers();
-          setPendingUsers(data);
-        } catch (err) {
-          console.error("Failed to fetch pending users:", err);
-        } finally {
-          setLoading(false);
-        }
-      };
-      loadPendingUsers();
-    }, []);
-  }
-  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
   const [attachments, setAttachments] = useState<File[]>([]);
-
-
-
   const [animateRows, setAnimateRows] = useState(false);
-
   const [selectedUser, setSelectedUser] = useState<any | null>(null);
   const [showModal, setShowModal] = useState(false);
 
-
-  // const handleDetails = (user: any) => {
-  //   setSelectedUser(user);
-  //   setShowModal(true);
-  // };
   const handleDetails = (user: any) => {
     setSelectedUser(user);
     setShowEmailModal(false); // make sure email modal is closed
@@ -242,7 +150,7 @@ export default function UsersPage() {
   };
 
   const [showEmailModal, setShowEmailModal] = useState(false);
-  const [selectedUserForEmail, setSelectedUserForEmail] = useState<any | null>(null);
+
 
 
   // Filter users based on role
@@ -302,7 +210,7 @@ export default function UsersPage() {
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [showResponseModal, setShowResponseModal] = useState(false);
   const [approvalMessage, setApprovalMessage] = useState("");
-  const [userToApprove, setUserToApprove] = useState(null);
+
 
   const handleApprove = (user: any) => {
     console.log("Selected user for approval:", user);
@@ -441,8 +349,8 @@ export default function UsersPage() {
                   onKeyDown={(e) => e.key === "Enter" && handleSearch()}
                   placeholder="Search users by name or email..."
                   className={`w-70 max-w-sm px-4 py-2 border rounded-lg outline-none focus:ring-2 ${darkMode
-                      ? "bg-zinc-800 border-zinc-700 text-white"
-                      : "bg-white border-gray-300 text-black"
+                    ? "bg-zinc-800 border-zinc-700 text-white"
+                    : "bg-white border-gray-300 text-black"
                     }`}
                 />
                 <button
@@ -909,10 +817,14 @@ export default function UsersPage() {
                       setShowEmailModal(false);
                       setSelectedUser(null);
                       setAttachments([]);
-                    } catch (err: any) {
-                      alert("Error sending email: " + (err?.message || "Unknown error"));
+                    } catch (err: unknown) {
+                      let errorMessage = "Unknown error";
+                      if (err instanceof Error) {
+                        errorMessage = err.message;
+                      }
+                      alert("Error sending email: " + errorMessage);
                     } finally {
-                      setIsSending(false); // ✅ Done loading
+                      setIsSending(false); 
                     }
                   }}
                 >
@@ -952,8 +864,8 @@ export default function UsersPage() {
                     <label className="block text-sm font-medium mb-1">Attachments</label>
                     <div
                       className={`w-full border-2 border-dashed rounded p-4 text-center cursor-pointer transition ${darkMode
-                          ? "border-zinc-600 hover:border-zinc-400"
-                          : "border-gray-300 hover:border-gray-500"
+                        ? "border-zinc-600 hover:border-zinc-400"
+                        : "border-gray-300 hover:border-gray-500"
                         }`}
                       onClick={() => document.getElementById("fileInput")?.click()}
                     >
@@ -1205,12 +1117,6 @@ export default function UsersPage() {
               </div>
             </div>
           )}
-
-
-
-
-
-
 
         </>
       )}

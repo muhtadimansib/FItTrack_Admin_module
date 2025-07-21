@@ -64,6 +64,19 @@ export interface PendingUser {
   ExperienceYears?: number;
   Bio?: string;
   SubmittedAt: string;
-  ProfileImageUrl?: string;
+  profileImageUrl?: string;
   Status: 'Pending' | 'Approved' | 'Rejected';
 }
+
+
+export interface DisplayUser {
+  id: number;
+  name: string;
+  email: string;
+  signup: string;
+  image: string;
+  role: string;
+}
+
+export type SelectedUser = Client | Trainer | Nutritionist | PendingUser | DisplayUser;
+

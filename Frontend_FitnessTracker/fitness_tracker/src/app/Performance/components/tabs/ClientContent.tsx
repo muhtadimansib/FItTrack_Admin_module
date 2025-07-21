@@ -21,7 +21,6 @@ export default function ClientsTab() {
   const [clients, setClients] = useState<Client[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedClientId, setSelectedClientId] = useState<number | null>(null);
-  const [hasAnimated, setHasAnimated] = useState(false);
   const pageSize = 10;
 
 useEffect(() => {

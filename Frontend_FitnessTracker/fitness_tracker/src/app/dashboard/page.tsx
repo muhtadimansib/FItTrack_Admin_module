@@ -240,7 +240,7 @@ export default function Dashboard() {
 const stats = [
   {
     label: "Users",
-    value: dashboardData?.totalUsers || 1000,
+    value: dashboardData?.totalUsers || 0,
     icon: (
       <Lottie
         animationData={usersAnimation}

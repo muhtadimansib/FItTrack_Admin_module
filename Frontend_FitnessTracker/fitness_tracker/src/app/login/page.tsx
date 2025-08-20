@@ -101,6 +101,7 @@ export default function Login() {
         }, 50);
       } else {
         showToastMessage("Invalid credentials. Login failed");
+        setIsLoading(false)
       }
     } catch (error) {
       showToastMessage("An error occurred. Please try again.");

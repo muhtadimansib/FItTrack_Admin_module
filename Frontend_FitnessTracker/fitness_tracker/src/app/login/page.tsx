@@ -25,6 +25,7 @@ export default function Login() {
   const [showToast, setShowToast] = useState(false);
   const [showWelcomeToast, setShowWelcomeToast] = useState(false);
   const [isExiting, setIsExiting] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     // Show the toast
@@ -73,6 +74,7 @@ export default function Login() {
       return;
     }
 
+    setIsLoading(true);
     try {
       const apiBase = process.env.NEXT_PUBLIC_API_URL;
       const response = await fetch(`${apiBase}/auth/login`, {
@@ -186,9 +188,10 @@ export default function Login() {
 
           <button
             onClick={handleLogin}
+            disabled={isLoading}
             className="w-full bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-md font-semibold hover:scale-105 hover:shadow-lg hover:shadow-green-500/25 transition-all"
           >
-            Sign In
+            {isLoading ? ( <span className="loading loading-spinner loading-md"></span>):("Sign In")}
           </button>
 
           <div className="text-center text-sm">
